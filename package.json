@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "bower-files": "^3.14.1",
     "browserify": "^14.0.0",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
@@ -18,5 +19,6 @@
     "gulp-util": "^3.0.8",
     "jshint": "^2.9.4",
     "vinyl-source-stream": "^1.1.0"
-  }
+  },
+  "dependencies": {}
 }
