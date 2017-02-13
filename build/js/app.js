@@ -17,7 +17,7 @@ Calculator.prototype.pingPong = function(goal){
     }
   }
   return output;
-}
+};
 exports.calculatorModule = Calculator;
 
 },{}],2:[function(require,module,exports){
