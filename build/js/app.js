@@ -1,4 +1,7 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+exports.apiKey = "74c027d8d2357a7c1dcf2aa875892bde";
+
+},{}],2:[function(require,module,exports){
 function Calculator(skinName) {
   this.skin = skinName;
 }
@@ -20,7 +23,26 @@ Calculator.prototype.pingPong = function(goal){
 };
 exports.calculatorModule = Calculator;
 
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
+var apiKey = require('./../.env').apiKey;
+
+function Weather(){
+}
+
+Weather.prototype.getWeather = function (city, displayFunction) {
+  $.get('http://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=' + apiKey)
+  .then(function(response){
+    displayFunction(city, response.main.humidity);
+  })
+  .fail(function(error){
+    $('.showWeather').text(error.responseJSON.message);
+  });
+};
+
+
+exports.weatherModule = Weather;
+
+},{"./../.env":1}],4:[function(require,module,exports){
 var Calculator = require('./../js/script.js').calculatorModule;
 $(document).ready(function() {
   $('#ping-pong-form').submit(function(event) {
@@ -47,4 +69,21 @@ $(document).ready(function(){
   $('#time').text(moment());
 });
 
-},{"./../js/script.js":1}]},{},[2]);
+var Weather = require('./../js/weather.js').weatherModule;
+
+
+var displayHumidity = function(city, humidityData) {
+  $('.showWeather').text("The humidity in " + city + " is " + humidityData + "%");
+};
+
+$(document).ready(function() {
+  var weatherObj = new Weather();
+
+  $('#weatherLocation').click(function() {
+    var city = $('#location').val();
+    $('#location').val("");
+    weatherObj.getWeather(city, displayHumidity);
+  });
+});
+
+},{"./../js/script.js":2,"./../js/weather.js":3}]},{},[4]);
